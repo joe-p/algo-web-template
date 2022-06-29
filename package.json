@@ -10,14 +10,17 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-    "lint": "eslint src/*",
-    "fix": "eslint --fix src/*"
+    "lint": "eslint . --ext ts",
+    "fix": "eslint . --ext ts --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@json-rpc-tools/utils": "^1.7.6",
     "@randlabs/myalgo-connect": "^1.2.0",
+    "@walletconnect/client": "^1.7.8",
+    "algorand-walletconnect-qrcode-modal": "^1.7.4",
     "algosdk": "^1.18.0",
     "crypto-browserify": "^3.12.0",
     "stream-browserify": "^3.0.0"
