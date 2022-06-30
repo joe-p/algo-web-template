@@ -2,5 +2,12 @@ import algosdk from 'algosdk'
 // import { MyAlgoSession } from './wallets/myalgo'
 // import { WalletConnectSession } from './wallets/walletconnect'
 // import { AlgoSignerSession } from './wallets/algosigner'
-
-console.log(`Generated Algorand account: ${algosdk.generateAccount().addr}`)
+try {
+    // @ts-ignore
+    const account = algosdk.generateAccounts()
+    console.log(`Generated Algorand account: ${account.addr}`)
+    document.getElementById('status').innerHTML = 'SDK Status: Working!'
+} catch(e) {
+    console.error(e)
+    document.getElementById('status').innerHTML = `SDK Status: Error - ${e.message}`
+}
