@@ -16,11 +16,9 @@ export class MyAlgoSession {
     }
 
     this.accounts = await this.myAlgoConnect.connect(settings)
-
-    return this.accounts
   }
 
   async signTxns (unsignedTxns: Array<algosdk.Transaction>) {
-    this.myAlgoConnect.signTransaction(unsignedTxns.map(txn => txn.toByte()))
+    return await this.myAlgoConnect.signTransaction(unsignedTxns.map(txn => txn.toByte()))
   }
 }

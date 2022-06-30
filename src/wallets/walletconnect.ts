@@ -1,7 +1,7 @@
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import algosdk from 'algosdk'
-import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
+import { formatJsonRpcRequest } from '@json-rpc-tools/utils'
 
 export class WalletConnectSession {
   connector: WalletConnect
@@ -68,5 +68,7 @@ export class WalletConnectSession {
     const decodedResult = result.map(element => {
       return element ? new Uint8Array(Buffer.from(element, 'base64')) : null
     })
+
+    return decodedResult
   }
 }
