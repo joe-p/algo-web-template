@@ -4,7 +4,7 @@ import algosdk from 'algosdk'
 // import { AlgoSignerSession } from './wallets/algosigner'
 try {
     // @ts-ignore
-    const account = algosdk.generateAccounts()
+    const account = algosdk.generateAccount()
     console.log(`Generated Algorand account: ${account.addr}`)
     document.getElementById('status').innerHTML = 'SDK Status: Working!'
 } catch(e) {
