@@ -2,6 +2,8 @@ import algosdk from 'algosdk'
 // import { MyAlgoSession } from './wallets/myalgo'
 // import { WalletConnectSession } from './wallets/walletconnect'
 // import { AlgoSignerSession } from './wallets/algosigner'
+// import Utils from './utils'
+
 try {
     // @ts-ignore
     const account = algosdk.generateAccounts()
