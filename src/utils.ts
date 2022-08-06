@@ -1,39 +1,47 @@
 import algosdk from 'algosdk'
 
 export module Utils {
-    interface GlobalStateValue {
+    interface StateValue {
         action: number,
         bytes?: string
         uint?: number
     }
 
-    interface GlobalState {
+    interface State {
         key: string
-        value: GlobalStateValue
+        value: StateValue
     }
 
-    interface ReadableGlobalState {
-        [key: string]: string | number | bigint | undefined
+    interface ReadableStateValue {
+      type: 'int' | 'bytes',
+      raw: Uint8Array,
+      number?: number,
+      string?: string,
+      address?: string
     }
 
-    export function getReadableGlobalState (delta: Array<GlobalState>) {
-      const r = {} as ReadableGlobalState
+    interface ReadableState {
+        [key: string]: ReadableStateValue
+    }
+
+    export function getReadableState (delta: Array<State>) {
+      const r = {} as ReadableState
 
       delta.forEach(d => {
         const key = Buffer.from(d.key, 'base64').toString('utf8')
-        let value: string | number | bigint | undefined
+        let value: ReadableStateValue
 
         if (d.value.bytes) {
-          // first see if it's a valid address
-          const b = new Uint8Array(Buffer.from(d.value.bytes as string, 'base64'))
-          value = algosdk.encodeAddress(b)
+          const raw = new Uint8Array(Buffer.from(d.value.bytes as string, 'base64'))
+          const utf8 = Buffer.from(d.value.bytes as string, 'base64').toString()
 
-          // then decode as string
-          if (!algosdk.isValidAddress(value)) {
-            value = Buffer.from(d.value.bytes as string, 'base64').toString()
-          }
+          value = { type: 'bytes', raw, string: utf8 }
+
+          const address = algosdk.encodeAddress(raw)
+          if (algosdk.isValidAddress(address)) value.address = address
         } else {
-          value = d.value.uint
+          const numberValue = d.value.uint as number
+          value = { type: 'int', raw: algosdk.encodeUint64(numberValue), number: numberValue }
         }
 
         r[key] = value
